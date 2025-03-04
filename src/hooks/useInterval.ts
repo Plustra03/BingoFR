@@ -21,7 +21,7 @@ export const useInterval = (callback: IntervalCallback, props: IntervalProps) =>
         }
 
         if (props[1] && intervalId.current === undefined) {
-            intervalId.current = window.setInterval(tick, props[0])
+            intervalId.current = setInterval(tick, props[0])
         }
 
         return () => {
@@ -36,7 +36,7 @@ export const useInterval = (callback: IntervalCallback, props: IntervalProps) =>
     useEffect(() => {
         if (intervalId.current !== undefined) {
             clearInterval(intervalId.current)
-            intervalId.current = window.setInterval(() => {
+            intervalId.current = setInterval(() => {
                 if (savedCallback.current !== undefined) {
                     savedCallback.current()
                 }

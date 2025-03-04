@@ -1,25 +1,24 @@
-import { useEffect, useRef, useState, type FunctionComponent, type Dispatch, type SetStateAction } from 'react'
+import { useRef, useState, type FunctionComponent, type Dispatch, type SetStateAction } from 'react'
 import { useInterval } from './hooks/useInterval'
+import { useSound } from './hooks/useSound'
 import Card from './components/Card'
 import Header from './components/Header'
 import Button from './components/Button'
 import Action from './components/Action'
-import WinSound from './sounds/success.mp3'
-import LoseSound from './sounds/failure.mp3'
-import AlertSound from './sounds/alert.mp3'
-import MarkSound from './sounds/mark.mp3'
 import PlayIcon from './icons/play.svg'
 import PauseIcon from './icons/pause.svg'
 import ResumeIcon from './icons/resume.svg'
 import ResetIcon from './icons/reset.svg'
-
+import WinSound from './sounds/success.mp3'
+import LoseSound from './sounds/failure.mp3'
+import AlertSound from './sounds/alert.mp3'
+import MarkSound from './sounds/mark.mp3'
 import {
     createGameNumbers,
     createPlayerNumbers,
     pickRandomNumber,
     randomReactionDelay,
     isEveryNumberMarked,
-    reproduceSound,
 } from './utils/commons'
 
 export type GameState = 'new' | 'running' | 'paused' | 'finished'
@@ -35,23 +34,11 @@ const Game: FunctionComponent = () => {
     const [enemyGreenNumbers, setEnemyGreenNumbers] = useState<GameNumber[]>(createPlayerNumbers())
     const [enemyOrangeNumbers, setEnemyOrangeNumbers] = useState<GameNumber[]>(createPlayerNumbers())
     const [enemyPurpleNumbers, setEnemyPurpleNumbers] = useState<GameNumber[]>(createPlayerNumbers())
+    const playWinSound = useSound(WinSound, 0.5)
+    const playLoseSound = useSound(LoseSound, 0.5)
+    const playAlertSound = useSound(AlertSound, 0.5)
+    const playMarkSound = useSound(MarkSound, 0.5)
     const enemiesTimeoutsRef = useRef<number[]>([])
-    const winSoundRef = useRef<HTMLAudioElement>(new Audio(WinSound))
-    const loseSoundRef = useRef<HTMLAudioElement>(new Audio(LoseSound))
-    const alertSoundRef = useRef<HTMLAudioElement>(new Audio(AlertSound))
-    const markSoundRef = useRef<HTMLAudioElement>(new Audio(MarkSound))
-
-    // Load sounds
-    useEffect(() => {
-        winSoundRef.current.load()
-        loseSoundRef.current.load()
-        alertSoundRef.current.load()
-        markSoundRef.current.load()
-        winSoundRef.current.volume = 0.5
-        loseSoundRef.current.volume = 0.5
-        alertSoundRef.current.volume = 0.5
-        markSoundRef.current.volume = 0.5
-    }, [])
 
     // Announce number every 5 seconds
     useInterval(() => {
@@ -77,14 +64,14 @@ const Game: FunctionComponent = () => {
     const winGame = (): void => {
         if (state === 'new') throw new Error('Cannot win the game if it has not been started')
         if (state === 'finished') throw new Error('Cannot win the game if it is already finished')
-        reproduceSound(winSoundRef.current)
+        playWinSound()
         finishGame()
     }
 
     const loseGame = (): void => {
         if (state === 'new') throw new Error('Cannot lose the game if it has not been started')
         if (state === 'finished') throw new Error('Cannot lose the game if it is already finished')
-        reproduceSound(loseSoundRef.current)
+        playLoseSound()
         finishGame()
     }
 
@@ -108,7 +95,7 @@ const Game: FunctionComponent = () => {
     }
 
     const announceNumber = (): void => {
-        reproduceSound(alertSoundRef.current)
+        playAlertSound()
         const index = pickRandomNumber(gameNumbers)
 
         const newGameNumbers = [...gameNumbers]
@@ -147,7 +134,7 @@ const Game: FunctionComponent = () => {
     }
 
     const togglePlayerNumber = (number: GameNumber): void => {
-        reproduceSound(markSoundRef.current)
+        playMarkSound()
         setPlayerNumbers((prev) => prev.map((n) => (n.value === number.value ? { ...n, marked: number.marked } : n)))
     }
 
