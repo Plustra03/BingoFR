@@ -15,9 +15,10 @@ import ResetIcon from './icons/reset.svg'
 import {
     createGameNumbers,
     createPlayerNumbers,
-    isEveryNumberMarked,
     pickRandomNumber,
     randomReactionDelay,
+    isEveryNumberMarked,
+    reproduceSound,
 } from './utils/commons'
 
 export type GameState = 'new' | 'running' | 'paused' | 'finished'
@@ -33,6 +34,7 @@ const Game: FunctionComponent = () => {
     const [enemyGreenNumbers, setEnemyGreenNumbers] = useState<GameNumber[]>(createPlayerNumbers())
     const [enemyOrangeNumbers, setEnemyOrangeNumbers] = useState<GameNumber[]>(createPlayerNumbers())
     const [enemyPurpleNumbers, setEnemyPurpleNumbers] = useState<GameNumber[]>(createPlayerNumbers())
+    const enemiesTimeoutsRef = useRef<number[]>([])
     const winSoundRef = useRef<HTMLAudioElement>(new Audio(WinSound))
     const loseSoundRef = useRef<HTMLAudioElement>(new Audio(LoseSound))
     const alertSoundRef = useRef<HTMLAudioElement>(new Audio(AlertSound))
@@ -69,30 +71,40 @@ const Game: FunctionComponent = () => {
     }
 
     const winGame = (): void => {
-        if (state !== 'running') throw new Error('Cannot win the game if it is not running')
-        winSoundRef.current.play()
-        setState('finished')
+        if (state === 'new') throw new Error('Cannot win the game if it has not been started')
+        if (state === 'finished') throw new Error('Cannot win the game if it is already finished')
+        reproduceSound(winSoundRef.current)
+        finishGame()
     }
 
     const loseGame = (): void => {
-        if (state !== 'running') throw new Error('Cannot lose the game if it is not running')
-        loseSoundRef.current.play()
+        if (state === 'new') throw new Error('Cannot lose the game if it has not been started')
+        if (state === 'finished') throw new Error('Cannot lose the game if it is already finished')
+        reproduceSound(loseSoundRef.current)
+        finishGame()
+    }
+
+    const finishGame = (): void => {
+        if (state === 'new') throw new Error('Cannot finish the game if it has not been started')
+        if (state === 'finished') throw new Error('Cannot finish the game if it is already finished')
+        clearEnemiesTimeouts()
         setState('finished')
     }
 
     const restartGame = (): void => {
+        clearEnemiesTimeouts()
+        setNumberAnnounced(undefined)
         setGameNumbers(createGameNumbers())
         setPlayerNumbers(createPlayerNumbers())
         setEnemyRedNumbers(createPlayerNumbers())
         setEnemyGreenNumbers(createPlayerNumbers())
         setEnemyOrangeNumbers(createPlayerNumbers())
         setEnemyPurpleNumbers(createPlayerNumbers())
-        announceNumber()
         setState('running')
     }
 
     const announceNumber = (): void => {
-        alertSoundRef.current.play()
+        reproduceSound(alertSoundRef.current)
         const index = pickRandomNumber(gameNumbers)
 
         const newGameNumbers = [...gameNumbers]
@@ -105,10 +117,15 @@ const Game: FunctionComponent = () => {
     }
 
     const makeEnemiesReact = (numberAnnounced: GameNumber): void => {
-        setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyRedNumbers), randomReactionDelay())
-        setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyGreenNumbers), randomReactionDelay())
-        setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyOrangeNumbers), randomReactionDelay())
-        setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyPurpleNumbers), randomReactionDelay())
+        const red = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyRedNumbers), randomReactionDelay())
+        const green = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyGreenNumbers), randomReactionDelay())
+        const orange = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyOrangeNumbers), randomReactionDelay())
+        const purple = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyPurpleNumbers), randomReactionDelay())
+
+        enemiesTimeoutsRef.current.push(red)
+        enemiesTimeoutsRef.current.push(green)
+        enemiesTimeoutsRef.current.push(orange)
+        enemiesTimeoutsRef.current.push(purple)
     }
 
     const markEnemyNumbers = (
@@ -120,6 +137,12 @@ const Game: FunctionComponent = () => {
             const newNumbers = prev.map((n) => (n.value === numberAnnounced.value ? { ...n, marked: true } : n))
             if (isEveryNumberMarked(newNumbers)) loseGame()
             return newNumbers
+        })
+    }
+
+    const clearEnemiesTimeouts = (): void => {
+        enemiesTimeoutsRef.current.forEach((timeout) => {
+            clearTimeout(timeout)
         })
     }
 

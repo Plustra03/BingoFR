@@ -50,6 +50,11 @@ export const randomReactionDelay = (): number => {
     return Math.random() * (max - min) + min
 }
 
+export const reproduceSound = (sound: HTMLAudioElement): void => {
+    sound.currentTime = 0
+    sound.play()
+}
+
 export const isEveryNumberMarked = (numbers: GameNumber[]): boolean => {
     return numbers.every((number) => number.marked)
 }
