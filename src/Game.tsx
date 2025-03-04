@@ -122,17 +122,11 @@ const Game: FunctionComponent = () => {
         const orange = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyOrangeNumbers), randomReactionDelay())
         const purple = setTimeout(() => markEnemyNumbers(numberAnnounced, setEnemyPurpleNumbers), randomReactionDelay())
 
-        enemiesTimeoutsRef.current.push(red)
-        enemiesTimeoutsRef.current.push(green)
-        enemiesTimeoutsRef.current.push(orange)
-        enemiesTimeoutsRef.current.push(purple)
+        enemiesTimeoutsRef.current = [...enemiesTimeoutsRef.current, red, green, orange, purple]
     }
 
-    const markEnemyNumbers = (
-        numberAnnounced: GameNumber,
-        enemySetter: Dispatch<SetStateAction<GameNumber[]>>
-    ): void => {
-        enemySetter((prev) => {
+    const markEnemyNumbers = (numberAnnounced: GameNumber, setter: Dispatch<SetStateAction<GameNumber[]>>): void => {
+        setter((prev) => {
             if (state === 'finished') return prev
             const newNumbers = prev.map((n) => (n.value === numberAnnounced.value ? { ...n, marked: true } : n))
             if (isEveryNumberMarked(newNumbers)) loseGame()
@@ -144,6 +138,8 @@ const Game: FunctionComponent = () => {
         enemiesTimeoutsRef.current.forEach((timeout) => {
             clearTimeout(timeout)
         })
+
+        enemiesTimeoutsRef.current = []
     }
 
     const togglePlayerNumber = (number: GameNumber): void => {
