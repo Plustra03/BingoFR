@@ -7,6 +7,7 @@ import Action from './components/Action'
 import WinSound from './sounds/success.mp3'
 import LoseSound from './sounds/failure.mp3'
 import AlertSound from './sounds/alert.mp3'
+import MarkSound from './sounds/mark.mp3'
 import PlayIcon from './icons/play.svg'
 import PauseIcon from './icons/pause.svg'
 import ResumeIcon from './icons/resume.svg'
@@ -38,15 +39,18 @@ const Game: FunctionComponent = () => {
     const winSoundRef = useRef<HTMLAudioElement>(new Audio(WinSound))
     const loseSoundRef = useRef<HTMLAudioElement>(new Audio(LoseSound))
     const alertSoundRef = useRef<HTMLAudioElement>(new Audio(AlertSound))
+    const markSoundRef = useRef<HTMLAudioElement>(new Audio(MarkSound))
 
     // Load sounds
     useEffect(() => {
         winSoundRef.current.load()
         loseSoundRef.current.load()
         alertSoundRef.current.load()
+        markSoundRef.current.load()
         winSoundRef.current.volume = 0.5
         loseSoundRef.current.volume = 0.5
         alertSoundRef.current.volume = 0.5
+        markSoundRef.current.volume = 0.5
     }, [])
 
     // Announce number every 5 seconds
@@ -143,6 +147,7 @@ const Game: FunctionComponent = () => {
     }
 
     const togglePlayerNumber = (number: GameNumber): void => {
+        reproduceSound(markSoundRef.current)
         setPlayerNumbers((prev) => prev.map((n) => (n.value === number.value ? { ...n, marked: number.marked } : n)))
     }
 
