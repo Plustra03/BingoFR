@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export const useSound = (src: string, volume: number) => {
+const useSound = (src: string, volume: number) => {
     const soundRef = useRef<HTMLAudioElement>(new Audio(src))
 
     useEffect(() => {
@@ -15,3 +15,5 @@ export const useSound = (src: string, volume: number) => {
 
     return play
 }
+
+export default useSound

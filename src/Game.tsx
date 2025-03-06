@@ -1,25 +1,12 @@
 import { useRef, useState, type FunctionComponent, type Dispatch, type SetStateAction } from 'react'
-import { useInterval } from './hooks/useInterval'
-import { useSound } from './hooks/useSound'
+import { useInterval, useSound } from './hooks'
+import { PlayIcon, PauseIcon, ResumeIcon, ResetIcon } from './icons'
+import { SuccessSound, FailureSound, AlertSound, MarkSound } from './sounds'
+import { newGameNumbers, newCardNumbers, chooseNumber, randomReactionDelay, isEveryNumberMarked } from './utils'
 import Card from './components/Card'
 import Header from './components/Header'
 import Button from './components/Button'
 import Action from './components/Action'
-import PlayIcon from './icons/play.svg'
-import PauseIcon from './icons/pause.svg'
-import ResumeIcon from './icons/resume.svg'
-import ResetIcon from './icons/reset.svg'
-import WinSound from './sounds/success.mp3'
-import LoseSound from './sounds/failure.mp3'
-import AlertSound from './sounds/alert.mp3'
-import MarkSound from './sounds/mark.mp3'
-import {
-    createGameNumbers,
-    createPlayerNumbers,
-    pickRandomNumber,
-    randomReactionDelay,
-    isEveryNumberMarked,
-} from './utils/commons'
 
 export type GameState = 'new' | 'running' | 'paused' | 'finished'
 export type GameLetter = 'B' | 'I' | 'N' | 'G' | 'O'
@@ -28,14 +15,14 @@ export type GameNumber = { letter: GameLetter; value: number; marked: boolean }
 const Game: FunctionComponent = () => {
     const [state, setState] = useState<GameState>('new')
     const [numberAnnounced, setNumberAnnounced] = useState<GameNumber | undefined>()
-    const [gameNumbers, setGameNumbers] = useState<GameNumber[]>(createGameNumbers())
-    const [playerNumbers, setPlayerNumbers] = useState<GameNumber[]>(createPlayerNumbers())
-    const [enemyRedNumbers, setEnemyRedNumbers] = useState<GameNumber[]>(createPlayerNumbers())
-    const [enemyGreenNumbers, setEnemyGreenNumbers] = useState<GameNumber[]>(createPlayerNumbers())
-    const [enemyOrangeNumbers, setEnemyOrangeNumbers] = useState<GameNumber[]>(createPlayerNumbers())
-    const [enemyPurpleNumbers, setEnemyPurpleNumbers] = useState<GameNumber[]>(createPlayerNumbers())
-    const playWinSound = useSound(WinSound, 0.5)
-    const playLoseSound = useSound(LoseSound, 0.5)
+    const [gameNumbers, setGameNumbers] = useState<GameNumber[]>(newGameNumbers())
+    const [playerNumbers, setPlayerNumbers] = useState<GameNumber[]>(newCardNumbers())
+    const [enemyRedNumbers, setEnemyRedNumbers] = useState<GameNumber[]>(newCardNumbers())
+    const [enemyGreenNumbers, setEnemyGreenNumbers] = useState<GameNumber[]>(newCardNumbers())
+    const [enemyOrangeNumbers, setEnemyOrangeNumbers] = useState<GameNumber[]>(newCardNumbers())
+    const [enemyPurpleNumbers, setEnemyPurpleNumbers] = useState<GameNumber[]>(newCardNumbers())
+    const playSuccessSound = useSound(SuccessSound, 0.5)
+    const playFailureSound = useSound(FailureSound, 0.5)
     const playAlertSound = useSound(AlertSound, 0.5)
     const playMarkSound = useSound(MarkSound, 0.5)
     const enemiesTimeoutsRef = useRef<number[]>([])
@@ -64,14 +51,14 @@ const Game: FunctionComponent = () => {
     const winGame = (): void => {
         if (state === 'new') throw new Error('Cannot win the game if it has not been started')
         if (state === 'finished') throw new Error('Cannot win the game if it is already finished')
-        playWinSound()
+        playSuccessSound()
         finishGame()
     }
 
     const loseGame = (): void => {
         if (state === 'new') throw new Error('Cannot lose the game if it has not been started')
         if (state === 'finished') throw new Error('Cannot lose the game if it is already finished')
-        playLoseSound()
+        playFailureSound()
         finishGame()
     }
 
@@ -85,18 +72,18 @@ const Game: FunctionComponent = () => {
     const restartGame = (): void => {
         clearEnemiesTimeouts()
         setNumberAnnounced(undefined)
-        setGameNumbers(createGameNumbers())
-        setPlayerNumbers(createPlayerNumbers())
-        setEnemyRedNumbers(createPlayerNumbers())
-        setEnemyGreenNumbers(createPlayerNumbers())
-        setEnemyOrangeNumbers(createPlayerNumbers())
-        setEnemyPurpleNumbers(createPlayerNumbers())
+        setGameNumbers(newGameNumbers())
+        setPlayerNumbers(newCardNumbers())
+        setEnemyRedNumbers(newCardNumbers())
+        setEnemyGreenNumbers(newCardNumbers())
+        setEnemyOrangeNumbers(newCardNumbers())
+        setEnemyPurpleNumbers(newCardNumbers())
         setState('running')
     }
 
     const announceNumber = (): void => {
         playAlertSound()
-        const index = pickRandomNumber(gameNumbers)
+        const index = chooseNumber(gameNumbers)
 
         const newGameNumbers = [...gameNumbers]
         newGameNumbers[index].marked = true

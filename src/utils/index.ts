@@ -1,6 +1,6 @@
 import { type GameLetter, type GameNumber } from '../Game'
 
-export const createGameNumbers = (): GameNumber[] => {
+export const newGameNumbers = (): GameNumber[] => {
     const letters: GameLetter[] = ['B', 'I', 'N', 'G', 'O']
     const numbers: GameNumber[] = []
 
@@ -15,7 +15,7 @@ export const createGameNumbers = (): GameNumber[] => {
     return numbers
 }
 
-export const createPlayerNumbers = (): GameNumber[] => {
+export const newCardNumbers = (): GameNumber[] => {
     const letters: GameLetter[] = ['B', 'I', 'N', 'G', 'O']
     const participantNumbers: GameNumber[] = []
     const numbersPerLetter = 5
@@ -34,7 +34,13 @@ export const createPlayerNumbers = (): GameNumber[] => {
     return participantNumbers
 }
 
-export const pickRandomNumber = (numbers: GameNumber[]): number => {
+export const randomReactionDelay = (): number => {
+    const min = 0.5 * 1000
+    const max = 2 * 1000
+    return Math.random() * (max - min) + min
+}
+
+export const chooseNumber = (numbers: GameNumber[]): number => {
     const unmarkedIndices = numbers.map((number, index) => (number.marked ? -1 : index)).filter((index) => index !== -1)
     if (unmarkedIndices.length === 0) {
         throw new Error('No unmarked numbers available')
@@ -42,12 +48,6 @@ export const pickRandomNumber = (numbers: GameNumber[]): number => {
 
     const randomIndex = Math.floor(Math.random() * unmarkedIndices.length)
     return unmarkedIndices[randomIndex]
-}
-
-export const randomReactionDelay = (): number => {
-    const min = 0.5 * 1000
-    const max = 2 * 1000
-    return Math.random() * (max - min) + min
 }
 
 export const isEveryNumberMarked = (numbers: GameNumber[]): boolean => {

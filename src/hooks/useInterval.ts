@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 type IntervalCallback = () => void
 type IntervalProps = [number, boolean]
 
-export const useInterval = (callback: IntervalCallback, props: IntervalProps) => {
+const useInterval = (callback: IntervalCallback, props: IntervalProps) => {
     const savedCallback = useRef<IntervalCallback | undefined>(undefined)
     const intervalId = useRef<number | undefined>(undefined)
 
@@ -44,3 +44,5 @@ export const useInterval = (callback: IntervalCallback, props: IntervalProps) =>
         }
     }, [props[0]])
 }
+
+export default useInterval
