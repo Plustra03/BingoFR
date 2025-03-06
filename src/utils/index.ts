@@ -1,4 +1,4 @@
-import { type GameLetter, type GameNumber } from '../Game'
+import { type GameLetter, type GameNumber } from '../types'
 
 export const newGameNumbers = (): GameNumber[] => {
     const letters: GameLetter[] = ['B', 'I', 'N', 'G', 'O']

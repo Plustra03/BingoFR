@@ -1,5 +1,5 @@
 import { type FunctionComponent } from 'react'
-import { type GameNumber } from '../Game'
+import { type GameNumber } from '../types'
 import clsx from 'clsx'
 import Square from './Square'
 

@@ -1,4 +1,5 @@
 import { useRef, useState, type FunctionComponent, type Dispatch, type SetStateAction } from 'react'
+import { type GameState, type GameNumber } from '../types'
 import { useInterval, useSound } from '../hooks'
 import { PlayIcon, PauseIcon, ResumeIcon, ResetIcon } from '../icons'
 import { SuccessSound, FailureSound, AlertSound, MarkSound } from '../sounds'
@@ -7,10 +8,6 @@ import Card from '../components/Card'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import Action from '../components/Action'
-
-export type GameState = 'new' | 'running' | 'paused' | 'finished'
-export type GameLetter = 'B' | 'I' | 'N' | 'G' | 'O'
-export type GameNumber = { letter: GameLetter; value: number; marked: boolean }
 
 const Game: FunctionComponent = () => {
     const [state, setState] = useState<GameState>('new')
