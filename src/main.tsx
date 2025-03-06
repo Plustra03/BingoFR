@@ -1,7 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Game from './Game'
 import './styles/tailwind.css'
+
+import Game from './views/Game'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
