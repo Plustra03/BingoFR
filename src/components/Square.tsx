@@ -15,8 +15,8 @@ const Square: FunctionComponent<SquareProps> = (props) => {
             type="button"
             onClick={props.onToggle}
             className={clsx(
-                'aspect-square grid place-items-center rounded-full font-semibold select-none',
-                props.mini ? 'w-10 text-sm' : 'w-14 text-lg',
+                'aspect-square grid place-items-center rounded-full select-none',
+                props.mini ? 'w-9 text-xs' : 'w-12',
                 props.onToggle && 'hover:cursor-pointer',
                 props.marked ? 'text-white' : 'bg-white text-black',
                 props.marked && {

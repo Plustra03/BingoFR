@@ -19,7 +19,7 @@ const Action: FunctionComponent<ActionProps> = (props) => {
             )}
         >
             <img src={props.icon} className="h-5 aspect-square" />
-            <span className="text-2xl font-semibold">{props.children}</span>
+            <span className="text-xl">{props.children}</span>
         </button>
     )
 }

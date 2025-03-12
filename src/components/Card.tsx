@@ -15,8 +15,8 @@ const Card: FunctionComponent<CardProps> = (props) => {
         <div className={clsx('w-fit h-fit overflow-hidden select-none', props.mini ? 'rounded-lg' : 'rounded-xl')}>
             <div
                 className={clsx(
-                    'grid grid-rows-1 grid-cols-5 font-bold text-white',
-                    props.mini ? 'p-3 gap-3 text-xl' : 'p-6 gap-6 text-3xl',
+                    'grid grid-rows-1 grid-cols-5 font-semibold text-white',
+                    props.mini ? 'p-3 gap-3 text-lg' : 'p-5 gap-5 text-2xl',
                     {
                         'bg-blue-400': props.color === 'blue',
                         'bg-red-400': props.color === 'red',
@@ -26,16 +26,16 @@ const Card: FunctionComponent<CardProps> = (props) => {
                     }
                 )}
             >
-                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-10' : 'w-14')}>B</span>
-                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-10' : 'w-14')}>I</span>
-                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-10' : 'w-14')}>N</span>
-                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-10' : 'w-14')}>G</span>
-                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-10' : 'w-14')}>O</span>
+                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>B</span>
+                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>I</span>
+                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>N</span>
+                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>G</span>
+                <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>O</span>
             </div>
             <div
                 className={clsx(
                     'grid grid-rows-5 grid-cols-5 grid-flow-col bg-gray-100',
-                    props.mini ? 'p-3 gap-3' : 'p-6 gap-6'
+                    props.mini ? 'p-3 gap-3' : 'p-5 gap-5'
                 )}
             >
                 {props.squares.map((square) => (

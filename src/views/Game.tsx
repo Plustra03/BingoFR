@@ -132,23 +132,23 @@ const Game: FunctionComponent = () => {
 
     return (
         <div className="w-screen h-screen grid place-items-center">
-            <div className="w-fit h-fit flex gap-20">
-                <div className="grid grid-rows-2 grid-cols-2 gap-10">
+            <div className="w-fit h-fit flex gap-7">
+                <div className="grid grid-rows-2 grid-cols-2 gap-7">
                     <Card color="red" squares={enemyRedNumbers} mini />
                     <Card color="green" squares={enemyGreenNumbers} mini />
                     <Card color="orange" squares={enemyOrangeNumbers} mini />
                     <Card color="purple" squares={enemyPurpleNumbers} mini />
                 </div>
-                <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-7">
                     <Header>{numberAnnounced}</Header>
-                    <div className="flex gap-10">
+                    <div className="flex gap-7">
                         <Card
                             color="blue"
                             squares={playerNumbers}
                             onToggleSquare={state !== 'new' && state !== 'finished' ? togglePlayerNumber : undefined}
                         />
                         <div className="flex flex-col gap-5 justify-between">
-                            <div className="flex flex-col gap-5 justify-between">
+                            <div className="flex flex-col gap-5">
                                 <Action icon={PlayIcon} enable={state === 'new'} onTrigger={startGame}>
                                     Start
                                 </Action>
