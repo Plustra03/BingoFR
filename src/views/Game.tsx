@@ -123,7 +123,8 @@ const Game: FunctionComponent = () => {
     }
 
     const bingo = () => {
-        if (playerNumbers.every((pn) => gameNumbers.filter((gn) => gn.marked).includes(pn))) {
+        const markedGameNumbers = gameNumbers.filter((gn) => gn.marked).map(gn => gn.value)
+        if (playerNumbers.every((pn) => markedGameNumbers.includes(pn.value))) {
             winGame()
         } else {
             loseGame()
