@@ -3,12 +3,10 @@
     "private": true,
     "version": "1.0.0",
     "type": "module",
-    "homepage": "https://plustra03.github.io/BingoFR",
     "scripts": {
         "dev": "vite",
         "build": "tsc -b && vite build",
         "preview": "vite preview",
-        "deploy": "gh-pages -d dist",
         "format": "prettier . --write"
     },
     "dependencies": {
