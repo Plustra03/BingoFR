@@ -23,7 +23,7 @@ const Card: FunctionComponent<CardProps> = (props) => {
                         'bg-green-400': props.color === 'green',
                         'bg-orange-400': props.color === 'orange',
                         'bg-purple-400': props.color === 'purple',
-                    }
+                    },
                 )}
             >
                 <span className={clsx('aspect-square grid place-items-center', props.mini ? 'w-9' : 'w-12')}>B</span>
@@ -35,7 +35,7 @@ const Card: FunctionComponent<CardProps> = (props) => {
             <div
                 className={clsx(
                     'grid grid-rows-5 grid-cols-5 grid-flow-col bg-gray-100',
-                    props.mini ? 'p-3 gap-3' : 'p-5 gap-5'
+                    props.mini ? 'p-3 gap-3' : 'p-5 gap-5',
                 )}
             >
                 {props.squares.map((square) => (

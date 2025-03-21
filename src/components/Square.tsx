@@ -25,7 +25,7 @@ const Square: FunctionComponent<SquareProps> = (props) => {
                     'bg-green-400 text-white': props.color === 'green',
                     'bg-orange-400 text-white': props.color === 'orange',
                     'bg-purple-400 text-white': props.color === 'purple',
-                }
+                },
             )}
         >
             {props.children}

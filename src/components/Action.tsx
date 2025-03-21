@@ -15,7 +15,7 @@ const Action: FunctionComponent<ActionProps> = (props) => {
             onClick={props.enable ? props.onTrigger : undefined}
             className={clsx(
                 'flex gap-3 place-items-center select-none',
-                props.enable ? 'hover:cursor-pointer' : 'opacity-30 hover:cursor-not-allowed'
+                props.enable ? 'hover:cursor-pointer' : 'opacity-30 hover:cursor-not-allowed',
             )}
         >
             <img src={props.icon} className="h-5 aspect-square" />

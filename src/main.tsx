@@ -8,5 +8,5 @@ import Game from './views/Game'
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <Game />
-    </StrictMode>
+    </StrictMode>,
 )

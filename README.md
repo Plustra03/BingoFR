@@ -25,24 +25,24 @@ You can also play the game online using GitHub Pages. Simply visit the following
 
 ## Project Structure
 
--   `public/`: Contains public files like the favicon and site manifest.
--   `src/`: Contains the project's source code.
-    -   `components/`: React components used in the game.
-    -   `hooks/`: Custom React hooks.
-    -   `icons/`: Icons used in the game.
-    -   `sounds/`: Sounds used in the game.
-    -   `styles/`: CSS style files.
-    -   `utils/`: Utility functions used in the game.
-    -   `Game.tsx`: Main game component.
-    -   `main.tsx`: Application entry point.
+- `public/`: Contains public files like the favicon and site manifest.
+- `src/`: Contains the project's source code.
+    - `components/`: React components used in the game.
+    - `hooks/`: Custom React hooks.
+    - `icons/`: Icons used in the game.
+    - `sounds/`: Sounds used in the game.
+    - `styles/`: CSS style files.
+    - `utils/`: Utility functions used in the game.
+    - `Game.tsx`: Main game component.
+    - `main.tsx`: Application entry point.
 
 ## Dependencies
 
--   React
--   TypeScript
--   TailwindCSS
--   CLSX
--   Vite
+- React
+- TypeScript
+- TailwindCSS
+- CLSX
+- Vite
 
 ## License
 
